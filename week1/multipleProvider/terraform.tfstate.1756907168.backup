@@ -1,0 +1,66 @@
+{
+  "version": 4,
+  "terraform_version": "1.13.1",
+  "serial": 9,
+  "lineage": "2ecd7dea-0f6f-84f3-285c-ca25839bfb6b",
+  "outputs": {},
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "local_file",
+      "name": "bash_script",
+      "provider": "provider[\"registry.terraform.io/hashicorp/local\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "content": "#!/bin/bash\ncompgen -c | grep -E '^.{4}$' \u003e result.txt\n",
+            "content_base64": null,
+            "content_base64sha256": "WTznfx8GpLOqT0wEY+7ffZvTcgKp8bqpIj4CEZUh8dI=",
+            "content_base64sha512": "jOABMoVDkciEreTbdnoROKgcJUYtOucr3Z9V26j+rIdxR/WQYTvcr3T9abxqwfcKBkxILDPTcUohkv0gSl+66Q==",
+            "content_md5": "87b2b9d12d6e986c961f9aea0283090e",
+            "content_sha1": "a6997f81aab1170a28ba6440d0cb61a7de54a07e",
+            "content_sha256": "593ce77f1f06a4b3aa4f4c0463eedf7d9bd37202a9f1baa9223e02119521f1d2",
+            "content_sha512": "8ce00132854391c884ade4db767a1138a81c25462d3ae72bdd9f55dba8feac877147f590613bdcaf74fd69bc6ac1f70a064c482c33d3714a2192fd204a5fbae9",
+            "directory_permission": "0777",
+            "file_permission": "0755",
+            "filename": "./find_commands.sh",
+            "id": "a6997f81aab1170a28ba6440d0cb61a7de54a07e",
+            "sensitive_content": null,
+            "source": null
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "sensitive_content"
+              }
+            ]
+          ],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "null_resource",
+      "name": "run_bash",
+      "provider": "provider[\"registry.terraform.io/hashicorp/null\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "4312012921333570008",
+            "triggers": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "dependencies": [
+            "local_file.bash_script"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
