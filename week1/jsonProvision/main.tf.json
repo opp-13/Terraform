@@ -1,0 +1,13 @@
+{
+  "provider": {
+    "local": {}
+  },
+  "resource": {
+    "local_file": {
+      "k8s_yaml": {
+        "filename": "${path.module}/test.yaml",
+        "content": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: nginx\nspec:\n  containers:\n    - name: nginx\n      image: nginx\n      ports:\n        - containerPort: 80\n"
+      }
+    }
+  }
+}
