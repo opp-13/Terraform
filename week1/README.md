@@ -31,15 +31,15 @@ content = <<EOF
 apiVersion: v1
 kind: Pod
 metadata:
-name: nginx
+ name: nginx
 spec:
-containers:
+ containers:
 
-name: nginx
-image: nginx
-ports:
+  name: nginx
+  image: nginx
+  ports:
 
-containerPort: 80
+   containerPort: 80
 EOF
 }
 ```
