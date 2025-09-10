@@ -93,7 +93,7 @@ resource "aws_lambda_function" "main_lambda" {
 resource "aws_lambda_function_url" "main_lambda_url" {
   function_name      = aws_lambda_function.main_lambda.function_name
   authorization_type = "NONE"
-  invoke_mode        = "REQUEST_RESPONSE"
+  invoke_mode        = "BUFFERED"
 }
 
 # Deploy async Lambda function
