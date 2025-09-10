@@ -77,7 +77,7 @@ data "archive_file" "async_lambda_zip" {
 resource "aws_lambda_function" "main_lambda" {
   function_name = "SlackCommandMainLambda"
   handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.13"
+  runtime       = "python3.10"
   role          = aws_iam_role.lambda_exec_role.arn
   filename      = data.archive_file.main_lambda_zip.output_path
   source_code_hash = data.archive_file.main_lambda_zip.output_base64sha256
@@ -100,7 +100,7 @@ resource "aws_lambda_function_url" "main_lambda_url" {
 resource "aws_lambda_function" "async_lambda" {
   function_name      = "SlackCommandAsyncLambda"
   handler            = "lambda_function.lambda_handler"
-  runtime            = "python3.13"
+  runtime            = "python3.10"
   role               = aws_iam_role.lambda_exec_role.arn
   filename           = data.archive_file.async_lambda_zip.output_path
   source_code_hash   = data.archive_file.async_lambda_zip.output_base64sha256
