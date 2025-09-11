@@ -66,9 +66,9 @@ data.aws_ami.ubuntu.id
 
 ## 메타 인수
 
-### count
+### [count](https://github.com/opp-13/Terraform/tree/main/week2/DataBlock/count)
 
-### depends_on
+### [depends_on](https://github.com/opp-13/Terraform/tree/main/week2/DataBlock/depends_on/basic)
 
-### Multiple Provider
+### [Multiple Provider](https://github.com/opp-13/Terraform/tree/main/week2/DataBlock/provider)
 
