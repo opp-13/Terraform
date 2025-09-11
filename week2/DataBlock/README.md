@@ -72,4 +72,3 @@ data.aws_ami.ubuntu.id
 
 ### Multiple Provider
 
-
