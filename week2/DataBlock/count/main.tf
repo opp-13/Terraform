@@ -9,8 +9,8 @@ data "local_file" "files" {
 
   lifecycle {
     postcondition {
-      condition     = fileexists("${path.module}/input/${var.names[count.index]}")
-      error_message = "파일 ${var.names[count.index]} 가 부재함"
+      condition     = fileexists("${path.module}/input/file${var.names[count.index]}.txt")
+      error_message = "파일 file${var.names[count.index]}.txt 이(가) 부재함"
     }
   }
 }
