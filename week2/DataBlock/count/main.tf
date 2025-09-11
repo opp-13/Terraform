@@ -17,6 +17,6 @@ data "local_file" "files" {
 
 resource "local_file" "new_files" {
   count    = length(data.local_file.files)
-  filename = "${path.module}/output/${var.names[count.index]}"
+  filename = "${path.module}/output/file${var.names[count.index]}.txt"
   content  = "${var.names[count.index]}의 복사본"
 }
