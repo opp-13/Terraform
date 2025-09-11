@@ -1,6 +1,6 @@
 
 
-## Data Block
+## data_source_archive_file Data Block 분석
 
 [internal/provider/data_source_archive_file.go 분석](https://github.com/hashicorp/terraform-provider-archive/blob/main/internal/provider/data_source_archive_file.go)
 
@@ -72,8 +72,81 @@ func (d *archiveFileDataSource) Read(ctx context.Context, req datasource.ReadReq
 }
 ```
 
+### [archive](https://github.com/hashicorp/terraform-provider-archive/blob/main/internal/provider/data_source_archive_file.go#L199)
+```go
+func archive(ctx context.Context, model fileModel) error {
+	archiveType := model.Type.ValueString()
+	outputPath := model.OutputPath.ValueString()
 
-### archive
+	archiver := getArchiver(archiveType, outputPath)
+	if archiver == nil {
+		return fmt.Errorf("archive type not supported: %s", archiveType)
+	}
+
+	outputFileMode := model.OutputFileMode.ValueString()
+	if outputFileMode != "" {
+		archiver.SetOutputFileMode(outputFileMode)
+	}
+
+	switch {
+	case !model.SourceDir.IsNull():
+		excludeList := make([]string, len(model.Excludes.Elements()))
+
+		if !model.Excludes.IsNull() {
+			var elements []types.String
+			model.Excludes.ElementsAs(ctx, &elements, false)
+
+			for i, elem := range elements {
+				excludeList[i] = elem.ValueString()
+			}
+		}
+
+		opts := ArchiveDirOpts{
+			Excludes: excludeList,
+		}
+
+		if !model.ExcludeSymlinkDirectories.IsNull() {
+			opts.ExcludeSymlinkDirectories = model.ExcludeSymlinkDirectories.ValueBool()
+		}
+
+		if err := archiver.ArchiveDir(model.SourceDir.ValueString(), opts); err != nil {
+			return fmt.Errorf("error archiving directory: %s", err)
+		}
+	case !model.SourceFile.IsNull():
+		if err := archiver.ArchiveFile(model.SourceFile.ValueString()); err != nil {
+			return fmt.Errorf("error archiving file: %s", err)
+		}
+	case !model.SourceContentFilename.IsNull():
+		content := model.SourceContent.ValueString()
+
+		if err := archiver.ArchiveContent([]byte(content), model.SourceContentFilename.ValueString()); err != nil {
+			return fmt.Errorf("error archiving content: %s", err)
+		}
+	case !model.Source.IsNull():
+		content := make(map[string][]byte)
+
+		var elements []sourceModel
+		model.Source.ElementsAs(ctx, &elements, false)
+
+		for _, elem := range elements {
+			content[elem.Filename.ValueString()] = []byte(elem.Content.ValueString())
+		}
+
+		if err := archiver.ArchiveMultiple(content); err != nil {
+			return fmt.Errorf("error archiving content: %s", err)
+		}
+	}
+
+	return nil
+}
+```
+
+
+### [실제 압축 호출 코드](https://github.com/hashicorp/terraform-provider-archive/blob/main/internal/provider/archiver.go)
+
+
+
+## 그 외
 
 [Go Pakage](https://pkg.go.dev/archive)를 사용 해 압축
 
