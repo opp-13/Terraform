@@ -57,3 +57,6 @@ Terraform init 과정에서 error가 뜰 수 있지만 무시해 주세요.
 terraform init
 terraform apply
 ```
+
+## TODO 
+Terraform destroy 구현
