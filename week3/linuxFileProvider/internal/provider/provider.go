@@ -17,12 +17,12 @@ import (
 )
 
 // Ensure ScaffoldingProvider satisfies various provider interfaces.
-var _ provider.Provider = &linuxFileProvider{}
-var _ provider.ProviderWithFunctions = &linuxFileProvider{}
-var _ provider.ProviderWithEphemeralResources = &linuxFileProvider{}
+var _ provider.Provider = &fileProvider{}
+var _ provider.ProviderWithFunctions = &fileProvider{}
+var _ provider.ProviderWithEphemeralResources = &fileProvider{}
 
 // ScaffoldingProvider defines the provider implementation.
-type linuxFileProvider struct {
+type fileProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
@@ -30,16 +30,16 @@ type linuxFileProvider struct {
 }
 
 // ScaffoldingProviderModel describes the provider data model.
-type ScaffoldingProviderModel struct {
+type fileProviderModel struct {
 	Endpoint types.String `tfsdk:"endpoint"`
 }
 
-func (p *linuxFileProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "scaffolding"
+func (p *fileProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "file"
 	resp.Version = p.version
 }
 
-func (p *linuxFileProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *fileProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"endpoint": schema.StringAttribute{
@@ -50,8 +50,8 @@ func (p *linuxFileProvider) Schema(ctx context.Context, req provider.SchemaReque
 	}
 }
 
-func (p *linuxFileProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data ScaffoldingProviderModel
+func (p *fileProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data fileProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -68,27 +68,27 @@ func (p *linuxFileProvider) Configure(ctx context.Context, req provider.Configur
 	resp.ResourceData = client
 }
 
-func (p *linuxFileProvider) Resources(ctx context.Context) []func() resource.Resource {
+func (p *fileProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return nil
 }
 
-func (p *linuxFileProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
+func (p *fileProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
 	return nil
 }
 
-func (p *linuxFileProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *fileProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewFileDataSource,
 	}
 }
 
-func (p *linuxFileProvider) Functions(ctx context.Context) []func() function.Function {
+func (p *fileProvider) Functions(ctx context.Context) []func() function.Function {
 	return nil
 }
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &linuxFileProvider{
+		return &fileProvider{
 			version: version,
 		}
 	}

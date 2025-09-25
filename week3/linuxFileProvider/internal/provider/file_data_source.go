@@ -10,9 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var (
-	_ datasource.DataSource = &fileDataSource{}
-)
+var _ datasource.DataSource = &fileDataSource{}
 
 func NewFileDataSource() datasource.DataSource {
 	return &fileDataSource{}
