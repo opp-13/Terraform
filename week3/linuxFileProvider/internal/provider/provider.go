@@ -69,7 +69,9 @@ func (p *fileProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 }
 
 func (p *fileProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return nil
+	return []func() resource.Resource{
+		NewFileResource,
+	}
 }
 
 func (p *fileProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {
