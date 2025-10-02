@@ -1,8 +1,17 @@
 # Terraform Provider file
 
+### Arguments
 
+| 구분          | Argument   | 설명                           | 예시/비고                              |
+|--------------|------------|------------------------------|-------------------------------------|
+| **Resource** | filename   | 관리할 파일 이름 [리소스 식별자]          | "hello_resource.txt"                 |
+|              | content    | 파일에 쓸 내용                     | "This file is managed by Terraform" |
+|              | format     | 파일 형식                        | "txt"                              |
+| **Data Block** | filename   | 생성할 파일 이름                    | "hello_custom.txt"                  |
+|                | content    | 보통 설정하지 않으며, provider에 따라 다름 | 보통 읽기용은 설정 안 함             |
+|                | format     | 파일 형식                        | "txt"                             |
 
-
+### 빌드 방법
 
 아래의 코드를 사용해 빌드합니다.
 
@@ -14,6 +23,7 @@ mv terraform-provider-file /root/ptest/linuxFile/
 chmod +x /root/ptest/linuxFile/terraform-provider-file
 ```
 
+### Provider 파일 설정
 
 dev_overrides를 통해 Terraform Provider를 불러옵니다.
 아래의 내용을 ~/.terraformrc에 넣어 주세요
@@ -25,6 +35,8 @@ provider_installation {
   direct {}
 }
 ```
+
+### main.tf 설정 방법
 
 main.tf를 설정합니다.
 ```hcl
@@ -45,8 +57,14 @@ data "file_file" "example" {
   format   = "txt"
 }
 
+resource "file_file" "example" {
+  filename = "hello_resource.txt"
+  content  = "This file is managed by a custom Terraform resources!"
+  format   = "txt"
+}
+
 output "file_created" {
-  value = data.file_file.example.created
+  value = file_file.example.created
 }
 ```
 
@@ -57,6 +75,3 @@ Terraform init 과정에서 error가 뜰 수 있지만 무시해 주세요.
 terraform init
 terraform apply
 ```
-
-## TODO 
-Terraform destroy 구현
