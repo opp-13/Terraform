@@ -8,7 +8,7 @@
 |              | content    | 파일에 쓸 내용                     | "This file is managed by Terraform" |
 |              | format     | 파일 형식                        | "txt"                              |
 | **Data Block** | filename   | 생성할 파일 이름                    | "hello_custom.txt"                  |
-|                | content    | 보통 설정하지 않으며, provider에 따라 다름 | 보통 읽기용은 설정 안 함             |
+|                | content    | 파일에 쓸 내용 |  "This file is managed by Terraform"             |
 |                | format     | 파일 형식                        | "txt"                             |
 
 ### 빌드 방법
