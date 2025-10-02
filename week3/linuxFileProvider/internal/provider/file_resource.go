@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -69,6 +70,8 @@ func (r *fileResource) Create(ctx context.Context, req resource.CreateRequest, r
 		return
 	}
 
+	_ = logAction(plan.Filename.ValueString(), "Create \n")
+
 	plan.Created = types.BoolValue(true)
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -88,6 +91,9 @@ func (r *fileResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 	} else {
 		state.Created = types.BoolValue(true)
 	}
+
+	_ = logAction(state.Filename.ValueString(), "Read \n")
+
 	diags = resp.State.Set(ctx, &state)
 	resp.Diagnostics.Append(diags...)
 }
@@ -110,6 +116,8 @@ func (r *fileResource) Update(ctx context.Context, req resource.UpdateRequest, r
 		return
 	}
 
+	_ = logAction(plan.Filename.ValueString(), "Update \n")
+
 	plan.Created = types.BoolValue(true)
 	diags = resp.State.Set(ctx, &plan)
 	resp.Diagnostics.Append(diags...)
@@ -124,6 +132,8 @@ func (r *fileResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 		return
 	}
 
+	_ = logAction(state.Filename.ValueString(), "Delete \n")
+
 	err := os.Remove(state.Filename.ValueString())
 	if err != nil && !os.IsNotExist(err) {
 		resp.Diagnostics.AddError(
@@ -131,4 +141,16 @@ func (r *fileResource) Delete(ctx context.Context, req resource.DeleteRequest, r
 			fmt.Sprintf("Failed to delete file %s: %s", state.Filename.ValueString(), err.Error()),
 		)
 	}
+}
+
+func logAction(filename, action string) error {
+	logname := filename + ".log"
+	f, err := os.OpenFile(logname, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	logLine := fmt.Sprintf("%s called at %s\n", action, time.Now().Format(time.RFC3339))
+	_, err = f.WriteString(logLine)
+	return err
 }
