@@ -24,8 +24,8 @@ Terraform Core는 아래의 Resource를 gRPC로 호출하여 원하는 인프라
 
 해당 RPC는 결론적으로 Resource의 Configure 및 Read Method 호출
 
-(Configure)[https://github.com/opp-13/Terraform/blob/main/week3/linuxFileProvider/internal/provider/provider.go#L53C24-L53C33]
-(Read)[https://github.com/opp-13/Terraform/blob/main/week3/linuxFileProvider/internal/provider/file_resource.go#L80]
+[Configure](https://github.com/opp-13/Terraform/blob/main/week3/linuxFileProvider/internal/provider/provider.go#L53C24-L53C33) \
+[Read](https://github.com/opp-13/Terraform/blob/main/week3/linuxFileProvider/internal/provider/file_resource.go#L80)
 
 
 ### 
