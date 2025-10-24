@@ -50,7 +50,18 @@ Optional + Compute를 동시에 사용할 경우 Teraform은
 따라서 그것을 바꾸고 싶다면 [추가 조치](https://discuss.hashicorp.com/t/schema-for-optional-computed-to-support-correct-removal-plan-in-framework/49055)가 필요할 것이다.
 
 
+## 이를 통해서 생각해 볼 수 있는 점
+
+Terraform에서 구성 설정을 바꿀 경우 해당 Resource의 Schema 행동 정의, Update Method의 정의에 따라서 Downtime이 생길 수 있다.
+
+- ForceNew가 정의되어 있는 부분을 수정할 경우 기존 리소스를 삭제하고 새로 생성하므로 Downtime은 매우 커질 수 있다. 
+- Update Method에서 설정을 바꾼 후 해당 리소스를 재시작하게 되어있다면 Downtime이 생길 수 있다.
+
+따라서 바꾼 Schema에 대해서 diff가 감지될 경우 Terraform이 어떻게 행동할지를 알고 사용해야 예기치 않은 Downtime을 줄일 수 있을 것이다.
+
 ### 참조
 [Schema Code](https://pkg.go.dev/github.com/hashicorp/terraform/helper/schema#Schema)
 [Schema Type](https://developer.hashicorp.com/terraform/plugin/sdkv2/schemas/schema-types)
 [Schema 행동 정의](https://developer.hashicorp.com/terraform/plugin/sdkv2/schemas/schema-behaviors)
+
+
